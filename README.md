@@ -1,38 +1,258 @@
-# Memory
+# 🃏 Memory
+
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://github.com/facebook/react)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://github.com/vitejs/vite)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://github.com/microsoft/TypeScript)
+[![CSS Modules](https://img.shields.io/badge/CSS_Modules-scoped-1572B6?logo=cssmodules&logoColor=white)](https://github.com/css-modules/css-modules)
+[![Electron](https://img.shields.io/badge/Electron-40-47848F?logo=electron&logoColor=white)](https://github.com/electron/electron)
+[![Capacitor](https://img.shields.io/badge/Capacitor-8-119EFF?logo=capacitor&logoColor=white)](https://github.com/ionic-team/capacitor)
+[![Node.js](https://img.shields.io/badge/Node.js-24-5FA04E?logo=nodedotjs&logoColor=white)](https://github.com/nodejs/node)
+[![pnpm](https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm&logoColor=white)](https://github.com/pnpm/pnpm)
+[![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)](https://github.com/eslint/eslint)
+[![Prettier](https://img.shields.io/badge/Prettier-3-F7B93E?logo=prettier&logoColor=black)](https://github.com/prettier/prettier)
+[![All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-scottdreinhart%2Fmemory-game-181717?logo=github&logoColor=white)](https://github.com/scottdreinhart/memory-game)
 
 Flip cards to find matching pairs on a grid
 
-## Tech Stack
+**⚠️ PROPRIETARY SOFTWARE — All Rights Reserved**
 
-- **React 19** — UI framework
-- **TypeScript** — type-safe development
-- **Vite 7** — build tool & dev server
-- **Electron** — desktop app (Windows, macOS, Linux)
-- **Capacitor** — mobile app (Android, iOS)
-- **ESLint + Prettier** — code quality & formatting
+© 2026 Scott Reinhart. This software is proprietary and confidential.
+Unauthorized reproduction, distribution, or use is strictly prohibited.
+See [LICENSE](LICENSE) file for complete terms and conditions.
+
+[Project Structure](#project-structure) · [Getting Started](#getting-started) · [Tech Stack](#tech-stack) · [Contributing](#contributing)
+
+## Project Structure
+
+```
+src/
+├── domain/                           # Pure, framework-agnostic logic
+│   ├── types.ts                      # Central type definitions
+│   ├── constants.ts                  # Game constants
+│   └── rules.ts                      # Game rules & win/loss detection
+├── app/
+│   ├── sounds.ts                     # Web Audio API synthesized SFX
+│   ├── storageService.ts             # localStorage JSON wrapper
+│   └── use*.ts                       # React hooks for state & effects
+├── ui/
+│   ├── atoms/                        # Smallest UI building blocks
+│   ├── molecules/                    # Composed UI components
+│   └── organisms/                    # Top-level page components
+├── themes/                           # Lazy-loaded theme CSS chunks
+├── workers/                          # Web Workers for off-thread computation
+├── index.tsx                         # React entry point
+└── styles.css                        # Global styles & CSS custom properties
+
+public/
+├── manifest.json                     # PWA manifest
+├── sw.js                             # Service worker for offline play
+└── offline.html                      # Offline fallback page
+
+index.html                            # HTML entry point
+package.json                          # Dependencies & scripts
+pnpm-lock.yaml                        # pnpm lockfile
+pnpm-workspace.yaml                   # pnpm workspace config
+LICENSE                               # Proprietary license terms
+capacitor.config.ts                   # Capacitor native app configuration
+electron/
+├── main.js                           # Electron main process
+└── preload.js                        # Sandboxed context bridge
+
+tsconfig.json                         # TypeScript compiler configuration
+vite.config.js                        # Vite configuration
+eslint.config.js                      # ESLint flat config
+.prettierrc                           # Prettier formatting rules
+.gitignore                            # Git ignore rules
+.nvmrc                                # Node.js version pin (v24)
+```
 
 ## Getting Started
 
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) v24+ (pin via [nvm](https://github.com/nvm-sh/nvm) — see `.nvmrc`)
+- [pnpm](https://pnpm.io/) v10+
+
+### Install & Run
+
 ```bash
+# Install dependencies
 pnpm install
-pnpm dev          # Start dev server at http://localhost:5173
+
+# Start development server (accessible on LAN via 0.0.0.0)
+pnpm start          # quick alias — vite --host
+pnpm dev            # same + kills stale port 5173 first
+
+# Build for production
+pnpm build
+
+# Preview production build locally
+pnpm preview
+
+# Build then preview in one step
+pnpm build:preview
 ```
 
-## Scripts
+### Code Quality
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start Vite dev server |
-| `pnpm build` | Production build |
-| `pnpm preview` | Preview production build |
-| `pnpm lint` | Run ESLint |
-| `pnpm format` | Format with Prettier |
-| `pnpm typecheck` | TypeScript type checking |
-| `pnpm validate` | Full lint + format + typecheck + build |
-| `pnpm electron:dev` | Run as Electron desktop app |
-| `pnpm electron:build` | Build Electron distributables |
-| `pnpm cap:sync` | Build & sync to Capacitor (mobile) |
+```bash
+# Individual tools
+pnpm lint           # ESLint — check for issues
+pnpm lint:fix       # ESLint — auto-fix issues
+pnpm format         # Prettier — format all source files
+pnpm format:check   # Prettier — check formatting without writing
+pnpm typecheck      # TypeScript type check (tsc --noEmit)
+
+# Chains
+pnpm check          # lint + format:check + typecheck in one pass (quality gate)
+pnpm fix            # lint:fix + format in one pass (auto-fix everything)
+pnpm validate       # check + build — full pre-push validation
+```
+
+### Cleanup & Maintenance
+
+```bash
+# Clean
+pnpm clean          # wipe dist/ and release/ build outputs
+pnpm clean:node     # delete node_modules only
+pnpm clean:all      # nuclear — dist/ + release/ + node_modules/
+
+# Fresh start
+pnpm reinstall      # clean:all + pnpm install
+```
+
+### Electron Desktop App
+
+```bash
+# Development: launches Vite + Electron together
+pnpm electron:dev
+
+# Preview production build in Electron (build + launch)
+pnpm electron:preview
+
+# Production build: creates distributable for current platform in release/
+pnpm electron:build
+
+# Platform-specific builds
+pnpm electron:build:win     # Windows .exe
+pnpm electron:build:linux   # Linux .AppImage
+pnpm electron:build:mac     # macOS .dmg
+```
+
+Electron wraps the same web app in a native desktop window. In dev mode it connects to the Vite dev server (`localhost:5173`); in production it loads the built `dist/` files directly.
+
+### Capacitor Mobile App
+
+```bash
+# Initialize native platforms (one-time setup)
+pnpm cap:init:android       # Add Android project
+pnpm cap:init:ios            # Add iOS project
+
+# Build web app + sync to native projects
+pnpm cap:sync
+
+# Open native IDE
+pnpm cap:open:android        # Open in Android Studio
+pnpm cap:open:ios            # Open in Xcode
+
+# Run on connected device/emulator
+pnpm cap:run:android         # Deploy to Android device
+pnpm cap:run:ios             # Deploy to iOS device
+```
+
+Capacitor wraps the same Vite `dist/` output in native Android and iOS app shells. The web code runs in a native WebView — no code changes needed.
+
+## Tech Stack
+
+| Technology | Version | Purpose |
+|---|---|---|
+| [React](https://github.com/facebook/react) | 19 | UI library (hooks, memo, lazy) |
+| [TypeScript](https://github.com/microsoft/TypeScript) | 5.9 | Static type checking (strict mode) |
+| [Vite](https://github.com/vitejs/vite) | 7 | Build tool & dev server |
+| [Electron](https://github.com/electron/electron) | 40 | Desktop app (Windows / Linux / macOS) |
+| [Capacitor](https://github.com/ionic-team/capacitor) | 8 | Native mobile / tablet apps (Android / iOS) |
+| [electron-builder](https://github.com/electron-userland/electron-builder) | 26 | Desktop packaging & installers |
+| [CSS Modules](https://github.com/css-modules/css-modules) | — | Scoped component styling |
+| [ESLint](https://github.com/eslint/eslint) | 10 | Linting (flat config, React + hooks plugins) |
+| [Prettier](https://github.com/prettier/prettier) | 3 | Code formatting |
+| [pnpm](https://github.com/pnpm/pnpm) | 10 | Fast, disk-efficient package manager |
+| [Node.js](https://github.com/nodejs/node) | 24 | Runtime (pinned via `.nvmrc`) |
+
+## Architecture
+
+This project enforces four complementary design patterns:
+
+1. **CLEAN Architecture** (Layer Separation)
+   - `domain/` layer: Pure, framework-agnostic logic (zero React dependencies)
+   - `app/` layer: React hooks for state management & side effects
+   - `ui/` layer: Presentational components (atoms → molecules → organisms)
+
+2. **Atomic Design** (Component Hierarchy)
+   - Data flows unidirectionally: **Hooks → Organism → Molecules → Atoms**
+   - Organisms contain zero inline markup; all composition happens in JSX
+
+3. **SOLID Principles** (Code-Level Design)
+   - Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+
+4. **DRY Principle** (No Duplication)
+   - Constants extracted to single sources; reusable hooks eliminate component duplication
+
+## Device Compatibility
+
+| Platform | Native App Tech | Distribution | Input Method | Web | Native App |
+|---|---|---|---|:---:|:---:|
+| **Desktop** | | | | | |
+| Windows | Electron | `.exe` / Microsoft Store | Mouse, keyboard, trackpad | ✅ | ✅ |
+| macOS | Electron | `.dmg` / Mac App Store | Mouse, keyboard, trackpad | ✅ | ✅ |
+| Linux | Electron | `.AppImage` / `.deb` / `.snap` | Mouse, keyboard, trackpad | ✅ | ✅ |
+| **Mobile** | | | | | |
+| Android | Capacitor | Google Play Store / `.apk` | Touch, swipe gestures | ✅ | ✅ |
+| iOS | Capacitor | App Store | Touch, swipe gestures | ✅ | ✅ |
+| **Tablets** | | | | | |
+| iPad | Capacitor (iOS) | App Store | Touch, swipe gestures | ✅ | ✅ |
+| Android tablets | Capacitor (Android) | Google Play Store | Touch, swipe gestures | ✅ | ✅ |
+| Amazon Fire tablets | Capacitor (Android) | Amazon Appstore | Touch, swipe gestures | ✅ | ✅ |
+
+## Remaining Work
+
+### Visual & UX
+
+- [ ] **Game UI implementation** — build the complete game interface with animations and effects
+- [ ] **Theme system** — multiple color themes with light/dark/system mode + colorblind presets
+- [ ] **Sound effects** — Web Audio API synthesized SFX + background music
+
+### Code Quality & Testing
+
+- [ ] **Unit tests** — domain functions are pure and test-ready; add Vitest or Jest suite
+- [ ] **Component tests** — React Testing Library tests for UI components
+- [ ] **Integration / E2E tests** — Playwright or Cypress for full game-flow verification
+
+### DevOps & Deployment
+
+- [ ] **CI/CD pipeline** — GitHub Actions workflow for lint → test → build → deploy
+- [ ] **GitHub Pages / Vercel deploy** — auto-deploy `dist/` on push to `main`
+- [ ] **Custom app icons** — generate PNG icons from SVG for Electron builds and mobile
+
+## Contributing
+
+This is proprietary software. Contributions are accepted by invitation only.
+
+If you have been granted contributor access:
+
+1. Create a feature branch from `main`
+2. Make focused, single-purpose commits with clear messages
+3. Run `pnpm validate` before pushing (lint + format + build gate)
+4. Submit a pull request with a description of the change
+
+See the [LICENSE](LICENSE) file for usage restrictions.
 
 ## License
 
-Proprietary — © 2026 Scott Reinhart
+Copyright © 2026 Scott Reinhart. All Rights Reserved.
+
+This project is proprietary software. No permission is granted to use, copy, modify, or distribute this software without the prior written consent of the owner. See the [LICENSE](LICENSE) file for full terms.
+
+---
+
+[⬆ Back to top](#-memory-game)
